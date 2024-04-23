@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:id="@+id/layoutDrawerOption"
+        style="@style/FocusClick"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:background="@drawable/bg_item_drawer_selector"
+        android:orientation="horizontal"
+        android:paddingHorizontal="15dp"
+        android:paddingVertical="10dp">
+
+        <ImageView
+            android:id="@+id/imgIcon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            tools:src="@drawable/ic_icon_app" />
+
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_weight="@integer/material_motion_duration_long_1"
+            tools:text="Information" />
+    </LinearLayout>
+</layout>

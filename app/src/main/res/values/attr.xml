@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CustomToolBar">
+        <attr name="customToolBarTitle" format="string" />
+        <attr name="customToolBarStartIcon" format="reference" />
+        <attr name="customToolBarEndIcon" format="reference" />
+        <attr name="customToolBarOptionIcon" format="reference" />
+    </declare-styleable>
+
+</resources>
