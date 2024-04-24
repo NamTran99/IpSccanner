@@ -15,7 +15,7 @@ class CustomToolBar (
 ) : ConstraintLayout(context, attrs) {
     private val binding: ViewToolBarBinding
     var onStartIconClicked: () -> Unit = {}
-    var onEndIconClicked: (View) -> Unit = {}
+    var onScanClicked: (View) -> Unit = {}
 
     var title: String = ""
         set(value) {
@@ -24,7 +24,6 @@ class CustomToolBar (
         }
 
 
-    fun getEndIcon() = binding.endIcon
 
     init {
         binding = ViewToolBarBinding.inflate(LayoutInflater.from(context), this, true)
@@ -37,8 +36,8 @@ class CustomToolBar (
             onStartIconClicked()
         }
 
-        binding.endIcon.setOnSafeClickListener {
-            onEndIconClicked(it)
+        binding.btScan.setOnSafeClickListener {
+            onScanClicked(it)
         }
     }
 }

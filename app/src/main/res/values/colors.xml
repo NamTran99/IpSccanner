@@ -5,4 +5,7 @@
     <color name="color_eee8f2">#eee8f2</color>
     <color name="color_item_selected">#6750A4</color>
     <color name="color_black">#000</color>
+    <color name="white">#fff</color>
+    <color name="color_bg">#363940</color>
+    <color name="color_line">#DCD5E3</color>
 </resources>

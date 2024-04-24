@@ -39,3 +39,4 @@ fun getNetworkPrefixLength(context: Context): Int {
 fun getIpHostname(ip: Int): String = InetAddress.getByAddress(intIpToByteArray(ip)).hostName
 
 fun isIpReachable(ip: Int): Boolean = InetAddress.getByAddress(intIpToByteArray(ip)).isReachable(2000)
+fun isIpReachable1(ip: Int): Boolean = InetAddress.getByAddress(intIpToByteArray(ip)).

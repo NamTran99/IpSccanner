@@ -17,6 +17,8 @@ class ResultsAdapter() : RecyclerView.Adapter<ResultsAdapter.ViewHolder>() {
         val ipTextView: TextView = view.findViewById(R.id.textview_ip)
     }
 
+    var onSizeChange : ((Int) -> Unit)?= null
+
     /**
      * Sets the layout to use for one item
      */
@@ -46,6 +48,7 @@ class ResultsAdapter() : RecyclerView.Adapter<ResultsAdapter.ViewHolder>() {
      */
     fun addItem(hostname: String, ip: String) {
         dataSet.add(Device(hostname, ip))
+        onSizeChange?.invoke(dataSet.size)
         runOnMainThread {
             notifyItemInserted(dataSet.size)
         }

@@ -21,7 +21,8 @@ class DrawerOptionItemAdapter :
             tvName.setTextColor( context.resources.getColor(if(item.isSelected) R.color. color_item_selected else R.color.color_black, null))
             layoutDrawerOption.isSelected = item.isSelected
             root.setOnSafeClickListener {
-                item.isSelected =true
+                if(item.isSelected) return@setOnSafeClickListener
+                item.isSelected = true
                 if(selectedIndex != -1 ){
                     currentList[selectedIndex].isSelected = false
                     notifyItemChanged(selectedIndex)
