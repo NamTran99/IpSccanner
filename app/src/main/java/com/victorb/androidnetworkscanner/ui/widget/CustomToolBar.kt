@@ -23,6 +23,9 @@ class CustomToolBar (
             field = value
         }
 
+
+    fun getEndIcon() = binding.endIcon
+
     init {
         binding = ViewToolBarBinding.inflate(LayoutInflater.from(context), this, true)
 

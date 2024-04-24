@@ -1,5 +1,7 @@
 package com.victorb.androidnetworkscanner
 
+import android.util.Log
+
 /**
  * Reverses the ip bytes to make calculations easier
  * For example 1.2.3.4 becomes 4.3.2.1
@@ -53,5 +55,7 @@ fun intIpToByteArray(ip: Int): ByteArray = arrayOf(
 fun generateIpRange(ip: Int, networkPrefixLength: Int): IntRange {
     val lowestIp: Int = ip and (((1 shl networkPrefixLength) - 1) shl (32 - networkPrefixLength))
     val highestIp: Int = lowestIp + ((1 shl (32 - networkPrefixLength)) - 1)
+        Log.d("TAG", "generateIpRange: NamTD8 - low:${lowestIp} - high: ${highestIp}")
+        Log.d("TAG", "generateIpRange: NamTD8-1 - low:${getIpHostname(lowestIp)} - high: ${getIpHostname(highestIp)}")
     return lowestIp..highestIp
 }

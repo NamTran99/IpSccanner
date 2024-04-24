@@ -15,7 +15,7 @@
         android:background="@drawable/bg_item_drawer_selector"
         android:orientation="horizontal"
         android:paddingHorizontal="15dp"
-        android:paddingVertical="10dp">
+        android:paddingVertical="20dp">
 
         <ImageView
             android:id="@+id/imgIcon"
