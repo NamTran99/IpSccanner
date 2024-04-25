@@ -9,6 +9,7 @@ import androidx.core.content.withStyledAttributes
 import com.victorb.androidnetworkscanner.R
 import com.victorb.androidnetworkscanner.databinding.ViewToolBarBinding
 import com.victorb.androidnetworkscanner.extension.setOnSafeClickListener
+import com.victorb.androidnetworkscanner.extension.show
 
 class CustomToolBar (
     context: Context, attrs: AttributeSet? = null,
@@ -23,6 +24,11 @@ class CustomToolBar (
             field = value
         }
 
+    var isShowEndButton: Boolean = true
+        set(value) {
+            binding.btScan.show (value)
+            field = value
+        }
 
 
     init {
@@ -30,6 +36,7 @@ class CustomToolBar (
 
         context.withStyledAttributes(attrs, R.styleable.CustomToolBar) {
             title = getString(R.styleable.CustomToolBar_customToolBarTitle)?: ""
+            isShowEndButton = getBoolean(R.styleable.CustomToolBar_customToolBarShowEndButton, true)
         }
 
         binding.iconMenu.setOnSafeClickListener {

@@ -3,6 +3,18 @@
 
     <style name="AppTextTitle">
         <item name="android:textSize">16sp</item>
+        <item name="android:textColor">#fff</item>
+    </style>
+
+    <style name="AppTextTitleSmall">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#fff</item>
+    </style>
+
+
+    <style name="AppTextBody">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">#fff</item>
     </style>
 
     <style name="FocusClick">

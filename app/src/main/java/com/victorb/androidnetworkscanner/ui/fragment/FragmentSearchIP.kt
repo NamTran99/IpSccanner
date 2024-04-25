@@ -3,15 +3,18 @@ package com.victorb.androidnetworkscanner.ui.fragment
 import android.animation.ObjectAnimator
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
+import android.util.Log
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
+import com.marsounjan.icmp4a.Icmp
+import com.marsounjan.icmp4a.Icmp4a
 import com.victorb.androidnetworkscanner.R
 import com.victorb.androidnetworkscanner.ResultsAdapter
+import com.victorb.androidnetworkscanner.core.base.BaseFragment
 import com.victorb.androidnetworkscanner.databinding.FragmentIpScannerBinding
 import com.victorb.androidnetworkscanner.extension.hide
+import com.victorb.androidnetworkscanner.extension.show
 import com.victorb.androidnetworkscanner.generateIpRange
 import com.victorb.androidnetworkscanner.getIpHostname
 import com.victorb.androidnetworkscanner.getNetworkPrefixLength
@@ -22,7 +25,6 @@ import com.victorb.androidnetworkscanner.isIpReachable
 import com.victorb.androidnetworkscanner.isWifiConnected
 import com.victorb.androidnetworkscanner.isWifiEnabled
 import com.victorb.androidnetworkscanner.runOnMainThread
-import com.victorb.androidnetworkscanner.ui.MainActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -30,11 +32,10 @@ import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class FragmentSearchIP : Fragment() {
+class FragmentSearchIP : BaseFragment<FragmentIpScannerBinding>() {
 
-    lateinit var binding: FragmentIpScannerBinding
-
-    private fun getMainActivity() = activity as? MainActivity
+    override val layoutId: Int
+        get() = R.layout.fragment_ip_scanner
 
     // UI
     private var animator: ObjectAnimator? = null
@@ -45,19 +46,33 @@ class FragmentSearchIP : Fragment() {
     private var currentScanJob: Job? = null
     private val checkJobsScope = CoroutineScope(Dispatchers.IO)
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentIpScannerBinding.inflate(inflater, container, false)
-        return binding.root
-    }
+    val icmp = Icmp4a()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             // Setup the toolbar
+
+            lifecycleScope.launch {
+                val host = "google.com"
+                try {
+                    val status = icmp.ping(host = "192.168.137.252")
+                    when (val result = status.result) {
+                        is Icmp.PingResult.Success -> Log.d(
+                            "ICMP",
+                            "$host(${status.ip.hostAddress}) ${result.packetSize} bytes - ${result.ms} ms"
+                        )
+
+                        is Icmp.PingResult.Failed -> Log.d(
+                            "ICMP",
+                            "$host(${status.ip.hostAddress}) Failed: ${result.message}"
+                        )
+                    }
+                } catch (error: Icmp.Error.UnknownHost) {
+                    Log.d("ICMP", "Unknown host $host")
+                }
+            }
+
 
             customToolbar.onStartIconClicked = {
                 getMainActivity()?.getDrawer()?.open()
@@ -66,7 +81,16 @@ class FragmentSearchIP : Fragment() {
             // Set the LayoutManager and the Adapter for RecyclerView
             rvIps.adapter = resultsAdapter.apply {
                 onSizeChange = {
+                    layoutNoData.show(it == 0)
+                    binding.rvIps.show(it != 0)
                     binding.customToolbar.title = getString(R.string.local_network, it)
+                }
+
+                onItemClick = {
+                    navigateToDestination(
+                        R.id.action_fragmentSearchIP_to_fragmentPingDevices,
+                        FragmentPingDevices.getFragmentPingDevicesBundle(it)
+                    )
                 }
             }
 

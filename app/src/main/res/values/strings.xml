@@ -5,6 +5,8 @@
     <string name="option_scan_network">Scan Network</string>
     <string name="scan">Scan</string>
     <string name="tap_the_scan_button_to_begin_the_search_process">Tap the Scan Button to begin the search process</string>
+    <string name="tap_the_ping_button_to_begin_the_search_process">Tap the Ping Button to begin check connection to the device below</string>
     <string name="local_network">Local Network (%d/256)</string>
     <string name="local_network_default">Local Network (0/256)</string>
+    <string name="ping">Ping</string>
 </resources>

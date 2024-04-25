@@ -7,5 +7,18 @@
     <fragment
         android:id="@+id/fragmentSearchIP"
         android:name="com.victorb.androidnetworkscanner.ui.fragment.FragmentSearchIP"
-        android:label="FragmentSearchIP" />
+        android:label="FragmentSearchIP" >
+        <action
+            android:id="@+id/action_fragmentSearchIP_to_fragmentPingDevices"
+            app:destination="@id/fragmentPingDevices" >
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentPingDevices"
+        android:name="com.victorb.androidnetworkscanner.ui.fragment.FragmentPingDevices"
+        android:label="FragmentPingDevices" >
+        <argument
+            android:name="IpDeviceData"
+            app:argType="string" />
+    </fragment>
 </navigation>

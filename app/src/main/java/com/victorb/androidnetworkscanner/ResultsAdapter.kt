@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.victorb.androidnetworkscanner.extension.setOnSafeClickListener
 
 class ResultsAdapter() : RecyclerView.Adapter<ResultsAdapter.ViewHolder>() {
     private val dataSet: ArrayList<Device> = arrayListOf();
@@ -18,6 +19,7 @@ class ResultsAdapter() : RecyclerView.Adapter<ResultsAdapter.ViewHolder>() {
     }
 
     var onSizeChange : ((Int) -> Unit)?= null
+    var onItemClick : ((Device) -> Unit)? = null
 
     /**
      * Sets the layout to use for one item
@@ -35,6 +37,10 @@ class ResultsAdapter() : RecyclerView.Adapter<ResultsAdapter.ViewHolder>() {
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.ipTextView.text = dataSet[position].ip
         holder.hostnameTextView.text = dataSet[position].hostname
+
+        holder.itemView.setOnSafeClickListener {
+            onItemClick?.invoke(dataSet[position])
+        }
     }
 
     /**
@@ -48,8 +54,8 @@ class ResultsAdapter() : RecyclerView.Adapter<ResultsAdapter.ViewHolder>() {
      */
     fun addItem(hostname: String, ip: String) {
         dataSet.add(Device(hostname, ip))
-        onSizeChange?.invoke(dataSet.size)
         runOnMainThread {
+            onSizeChange?.invoke(dataSet.size)
             notifyItemInserted(dataSet.size)
         }
     }
@@ -60,6 +66,7 @@ class ResultsAdapter() : RecyclerView.Adapter<ResultsAdapter.ViewHolder>() {
     fun clear() {
         dataSet.clear()
         runOnMainThread {
+            onSizeChange?.invoke(0)
             notifyDataSetChanged()
         }
     }

@@ -22,7 +22,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-abstract class BaseFragment<T : ViewDataBinding, VM : BaseViewModel> : Fragment() {
+abstract class BaseFragment<T : ViewDataBinding> : Fragment() {
     val TAG by lazy { this::class.java.name }
 
     fun getMainActivity() = activity as? MainActivity
@@ -31,7 +31,6 @@ abstract class BaseFragment<T : ViewDataBinding, VM : BaseViewModel> : Fragment(
     open val isSaveCache = false
 
     protected var jopEventReceiver: Job? = null
-    abstract val viewModel: VM
 
     @get:LayoutRes
     abstract val layoutId: Int
@@ -67,26 +66,6 @@ abstract class BaseFragment<T : ViewDataBinding, VM : BaseViewModel> : Fragment(
         super.onViewCreated(view, savedInstanceState)
         Log.d(TAG, "onViewCreated: $savedInstanceState")
 
-        jopEventReceiver = lifecycleScope.launch {
-            viewModel.eventReceiver.collectLatest {
-                when (it) {
-                    is AppEvent.OnNavigation -> navigateToDestination(it.destination, it.bundle)
-                    AppEvent.OnCloseApp -> closeApp()
-                    AppEvent.OnBackScreen -> onBackFragment()
-                    is AppEvent.OnShowToast -> showToast(it.content, it.type)
-
-                    is AppEvent.OnResponse<*> -> onResponse(it.key, it.data)
-                    is AppEvent.OnNavigation1 -> navigateToDestination(
-                        it.destination,
-                        bundle = it.bundle,
-                        popUpToDes = it.popUpTo,
-                        inclusive = it.isInclusive
-                    )
-
-                }
-            }
-        }
-
         activity?.onBackPressedDispatcher?.addCallback(
             viewLifecycleOwner,
             object : OnBackPressedCallback(true) {
@@ -108,8 +87,6 @@ abstract class BaseFragment<T : ViewDataBinding, VM : BaseViewModel> : Fragment(
     override fun onResume() {
         super.onResume()
         onReload()
-        if (viewModel.checkReLoad) return
-        viewModel.checkReLoad = true
         Log.d(TAG, "onResume: ")
     }
 
