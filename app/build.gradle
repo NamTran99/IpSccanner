@@ -8,6 +8,8 @@ android {
     compileSdkVersion 34
     buildToolsVersion "30.0.3"
 
+    namespace "com.victorb.androidnetworkscanner"
+
     defaultConfig {
         applicationId "com.victorb.androidnetworkscanner"
         minSdkVersion 24
@@ -49,4 +51,5 @@ dependencies {
     implementation 'com.airbnb.android:lottie:6.4.0'
 
     implementation "com.marsounjan:icmp4a:1.0.0"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:1.9.21"
 }

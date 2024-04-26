@@ -2,7 +2,7 @@ package com.victorb.androidnetworkscanner.ui.recycler
 
 import com.victorb.androidnetworkscanner.R
 import com.victorb.androidnetworkscanner.core.base.recyclerview.SingleHolderBindingAdapter
-import com.victorb.androidnetworkscanner.data.local.model.OptionDrawerData.OptionDrawerModel
+import com.victorb.androidnetworkscanner.data.local.model.OptionDrawerModel
 import com.victorb.androidnetworkscanner.databinding.ItemMenuDrawerLayoutBinding
 import com.victorb.androidnetworkscanner.extension.setOnSafeClickListener
 

@@ -1,16 +1,11 @@
 package com.victorb.androidnetworkscanner.ui
 
-import android.animation.ObjectAnimator
 import android.os.Bundle
 import com.victorb.androidnetworkscanner.R
-import com.victorb.androidnetworkscanner.ResultsAdapter
 import com.victorb.androidnetworkscanner.core.base.BaseActivity
-import com.victorb.androidnetworkscanner.data.local.model.OptionDrawerData.OptionDrawerModel
+import com.victorb.androidnetworkscanner.data.local.model.OptionDrawerModel
 import com.victorb.androidnetworkscanner.databinding.ActivityMainBinding
 import com.victorb.androidnetworkscanner.ui.recycler.DrawerOptionItemAdapter
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 
 class MainActivity : BaseActivity<ActivityMainBinding>() {
     private lateinit var optionDrawerAdapter: DrawerOptionItemAdapter

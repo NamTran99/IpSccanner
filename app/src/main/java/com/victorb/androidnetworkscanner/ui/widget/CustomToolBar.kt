@@ -18,6 +18,12 @@ class CustomToolBar (
     var onStartIconClicked: () -> Unit = {}
     var onScanClicked: (View) -> Unit = {}
 
+    private var  endButtonContent : String = ""
+        set(value) {
+            binding.btScan.text = value
+            field = value
+        }
+
     var title: String = ""
         set(value) {
             binding.tvTitle.text = value
@@ -37,6 +43,7 @@ class CustomToolBar (
         context.withStyledAttributes(attrs, R.styleable.CustomToolBar) {
             title = getString(R.styleable.CustomToolBar_customToolBarTitle)?: ""
             isShowEndButton = getBoolean(R.styleable.CustomToolBar_customToolBarShowEndButton, true)
+            endButtonContent = getString(R.styleable.CustomToolBar_customToolBarEndButtonContent)?: context.getString(R.string.scan)
         }
 
         binding.iconMenu.setOnSafeClickListener {

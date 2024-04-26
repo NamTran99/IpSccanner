@@ -9,4 +9,6 @@
     <string name="local_network">Local Network (%d/256)</string>
     <string name="local_network_default">Local Network (0/256)</string>
     <string name="ping">Ping</string>
+    <string name="ping_network">Ping Local Network</string>
+    <string name="reply_from_ip">Reply from %s</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.victorb.androidnetworkscanner.data.local.model.OptionDrawerData
+package com.victorb.androidnetworkscanner.data.local.model
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
