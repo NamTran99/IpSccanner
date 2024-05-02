@@ -9,4 +9,7 @@
     <color name="color_bg">#363940</color>
     <color name="color_line">#DCD5E3</color>
     <color name="color_353f4b">#353f4b</color>
+    <color name="color_dot_active">#B9DE22</color>
+    <color name="color_dot_inactive">#FF5722</color>
+    <color name="color_46494e">#46494e</color>
 </resources>

@@ -1,6 +1,9 @@
 package com.victorb.androidnetworkscanner.ui
 
 import android.os.Bundle
+import androidx.navigation.NavOptions
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.victorb.androidnetworkscanner.R
 import com.victorb.androidnetworkscanner.core.base.BaseActivity
 import com.victorb.androidnetworkscanner.data.local.model.OptionDrawerModel
@@ -18,23 +21,54 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         // Default behaviour
         super.onCreate(savedInstanceState)
+
         binding.apply {
             optionDrawerAdapter = DrawerOptionItemAdapter().apply {
+                onItemClick = {
+                    navigateToDestination(
+                        it.idNavigation,
+                        inclusive = true,
+                        popUpToDes =  binding.navHostFragmentContainer.findNavController().currentDestination?.id
+
+                    )
+                }
                 setListItem(
                     listOf(
                         OptionDrawerModel(
                             R.drawable.ic_icon_app,
                             getString(R.string.option_information),
-                            isSelected = true
+                            isSelected = true,
+                            idNavigation = R.id.fragmentIPInformationDetail
                         ),
                         OptionDrawerModel(
                             R.drawable.ic_icon_app,
-                            getString(R.string.option_scan_network)
+                            getString(R.string.option_scan_network),
+                            idNavigation = R.id.fragmentSearchIP
                         )
                     )
                 )
             }
             rvListOption.adapter = optionDrawerAdapter
+        }
+    }
+
+
+    open fun navigateToDestination(
+        destination: Int,
+        bundle: Bundle? = null,
+        inclusive: Boolean = false,
+        popUpToDes: Int? = null,
+        navOption: NavOptions.Builder? = null
+    ) {
+        val navOptionBuilder = navOption ?: NavOptions.Builder()
+
+        popUpToDes?.let {
+            navOptionBuilder
+                .setPopUpTo(destinationId = it, inclusive = inclusive)
+        }
+
+        binding.navHostFragmentContainer.findNavController().apply {
+            navigate(destination, bundle, navOptions = navOptionBuilder.build())
         }
     }
 }

@@ -63,6 +63,7 @@
             android:background="@drawable/bg_device_id_infor"
             android:gravity="center"
             android:orientation="vertical"
+            android:layout_marginHorizontal="@dimen/_10dp"
             android:paddingVertical="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -109,6 +110,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="#9CDCD5E3"
+            android:layout_marginTop="@dimen/_10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/lvIDInformation" />
@@ -117,14 +119,55 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvListPing"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginTop="@dimen/_10dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_ping_result"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/line2" />
+            app:layout_constraintTop_toBottomOf="@id/line2"
+            app:layout_constraintBottom_toTopOf="@id/lvPingStatistic"
+            tools:listitem="@layout/item_ping_result" />
+
+        <LinearLayout
+            android:id="@+id/lvPingStatistic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_top_corner_10"
+            android:backgroundTint="#4CAF50"
+            android:visibility="gone"
+            android:orientation="vertical"
+            android:paddingHorizontal="@dimen/_10dp"
+            android:paddingVertical="@dimen/_10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <TextView
+                style="@style/AppTextTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/ping_statistics"
+                android:textAllCaps="true"
+                android:textColor="@color/color_353f4b"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvStatistic1"
+                style="@style/AppTextBody"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10dp"
+                tools:text="Packets: Sent = 4, Received = 4, Lost = 0 (0% loss)" />
+
+            <TextView
+                android:id="@+id/tvStatistic2"
+                style="@style/AppTextBody"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Approximate round trip times: Minimum = 22ms, maximum = 25ms" />
+        </LinearLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

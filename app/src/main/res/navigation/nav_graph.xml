@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/fragmentSearchIP">
+    app:startDestination="@id/fragmentIPInformationDetail">
 
     <fragment
         android:id="@+id/fragmentSearchIP"
@@ -21,4 +21,8 @@
             android:name="IpDeviceData"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/fragmentIPInformationDetail"
+        android:name="com.victorb.androidnetworkscanner.ui.fragment.FragmentIPInformationDetail"
+        android:label="FragmentIPInformationDetail" />
 </navigation>

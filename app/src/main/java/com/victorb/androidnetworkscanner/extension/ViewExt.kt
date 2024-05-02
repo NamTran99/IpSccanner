@@ -26,11 +26,15 @@ fun <T : View> T.visible(b: Boolean = true, function: T.() -> Unit = {}) {
 }
 
 fun View.hide(b: Boolean) {
-    if(b){
+    if (b) {
         visibility = View.GONE
-    }else{
+    } else {
         visibility = View.VISIBLE
     }
+}
+
+fun View.hide() {
+    visibility = View.GONE
 }
 
 class SafeClickListener(

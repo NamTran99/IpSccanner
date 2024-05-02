@@ -9,6 +9,7 @@ import com.victorb.androidnetworkscanner.extension.setOnSafeClickListener
 class DrawerOptionItemAdapter :
     SingleHolderBindingAdapter<OptionDrawerModel, ItemMenuDrawerLayoutBinding>() {
         private var selectedIndex : Int= -1
+    var onItemClick : ((OptionDrawerModel) -> Unit)? = null
     override fun onBind(
         binding: ItemMenuDrawerLayoutBinding,
         item: OptionDrawerModel,
@@ -29,6 +30,7 @@ class DrawerOptionItemAdapter :
                 }
                 notifyItemChanged(position)
                 selectedIndex = position
+                onItemClick?.invoke(item)
             }
         }
     }

@@ -43,7 +43,6 @@ abstract class BaseFragment<T : ViewDataBinding> : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
-        Log.d(TAG, "onCreateView: NamTD8")
         return if (isSaveCache) {
             return if (::binding.isInitialized) {
                 binding.lifecycleOwner = viewLifecycleOwner

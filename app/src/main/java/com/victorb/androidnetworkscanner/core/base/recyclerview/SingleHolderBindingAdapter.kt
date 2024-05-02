@@ -32,4 +32,8 @@ abstract class SingleHolderBindingAdapter<T : KeyModel, B : ViewDataBinding>(
     abstract fun onBind(binding: B, item: T, position: Int)
 
     open fun initStateViewHolder(holder: DataBindingViewHolder<T, B>) {}
+
+    open fun clearData(){
+        submitList(listOf())
+    }
 }

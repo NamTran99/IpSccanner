@@ -11,4 +11,26 @@
     <string name="ping">Ping</string>
     <string name="ping_network">Ping Local Network</string>
     <string name="reply_from_ip">Reply from %s</string>
+    <string name="reply_content_success">Successed: Package = %s bytes, time response = %s ms</string>
+    <string name="reply_content_failure">Failed: %s</string>
+    <string name="ping_statistics">Ping statistics</string>
+    <string name="ping_statistics_content_1">Packets: Sent = 5, Received = %s, Lost = %s (%s loss)</string>
+    <string name="ping_statistics_content_2">Approximate round trip times: Minimum = %sms, maximum = %sms</string>
+    <string name="location">Location</string>
+    <string name="title_infor_wifi_state">Wifi State:</string>
+    <string name="title_infor_country">Country:</string>
+    <string name="title_infor_continent">Continent:</string>
+    <string name="title_infor_country_code">Country Code:</string>
+    <string name="title_infor_region_name">Region Name:</string>
+    <string name="title_infor_city">City:</string>
+    <string name="title_infor_latitude">Latitude:</string>
+    <string name="title_infor_longitude">Longitude:</string>
+    <string name="title_infor_isp">ISP:</string>
+    <string name="title_infor_timezone">Timezone:</string>
+    <string name="title_infor_proxy">Proxy:</string>
+    <string name="title_infor_bssid">BSSID:</string>
+    <string name="title_infor_wifi_broadcast">Wifi Broadcast:</string>
+    <string name="title_infor_default_gateway_ip">Default Gateway IP:</string>
+    <string name="title_infor_subnet_mask">Subnet Mask:</string>
+    <string name="title_infor_ipv4">IPv4:</string>
 </resources>

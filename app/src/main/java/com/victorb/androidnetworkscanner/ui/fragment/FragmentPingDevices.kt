@@ -12,12 +12,13 @@ import com.victorb.androidnetworkscanner.core.base.BaseFragment
 import com.victorb.androidnetworkscanner.data.local.model.PingStatusLocal
 import com.victorb.androidnetworkscanner.data.local.model.convertToPingStatusLocal
 import com.victorb.androidnetworkscanner.databinding.FragmentPingDeviceBinding
+import com.victorb.androidnetworkscanner.extension.hide
+import com.victorb.androidnetworkscanner.extension.moveViewFromBottom
 import com.victorb.androidnetworkscanner.extension.serializableCustom
+import com.victorb.androidnetworkscanner.extension.show
 import com.victorb.androidnetworkscanner.ui.recycler.PingResultAdapter
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.withContext
 
 class FragmentPingDevices : BaseFragment<FragmentPingDeviceBinding>() {
 
@@ -53,27 +54,57 @@ class FragmentPingDevices : BaseFragment<FragmentPingDeviceBinding>() {
         var index = 0
         try {
             icmp.pingInterval(
-                device?.ip?: "",
+                device?.ip ?: "",
                 count = 5,
                 intervalMillis = 1000
             )
                 .onEach { status ->
-                    val listItem  = mutableListOf<PingStatusLocal>()
-                    Log.d(TAG, "NamTD8 pingNetWork: ${status}")
-                    listItem.add(status.convertToPingStatusLocal(index))
-                    pingResultNetWorkAdapter.addMoreItem(listItem)
-                    index += 1
-                    return@onEach
+                    val listItem = mutableListOf<PingStatusLocal>()
 
-//                    withContext(Dispatchers.Main){
-//
-//
-////                        val result = status.result
-////                        when (result) {
-////                            is Icmp.PingResult.Success -> Log.d("ICMP", "$host(${status.ip.hostAddress}) ${result.packetSize} bytes - ${result.ms} ms")
-////                            is Icmp.PingResult.Failed -> Log.d("ICMP", "$host(${status.ip.hostAddress}) Failed: ${result.message}")
-////                        }
-//                    }
+                    listItem.add(status.convertToPingStatusLocal(index))
+
+                    pingResultNetWorkAdapter.addMoreItem(listItem) {
+                        if (index % 5 == 4) {
+                            val listResult = it
+                            val numReceived = listResult.count {
+                                it.result is Icmp.PingResult.Success
+                            }
+
+                            val minRes = listResult.filter {
+                                it.result is Icmp.PingResult.Success
+                            }.minOf {
+                                (it.result as? Icmp.PingResult.Success)?.ms ?: 0
+                            }
+
+                            val maxRes = listResult.filter {
+                                it.result is Icmp.PingResult.Success
+                            }.maxOf {
+                                (it.result as? Icmp.PingResult.Success)?.ms ?: 0
+                            }
+
+                            binding.apply {
+                                lvPingStatistic.show()
+                                lvPingStatistic.moveViewFromBottom()
+                                lvPingStatistic.show {
+                                    tvStatistic1.text =
+                                        getString(
+                                            R.string.ping_statistics_content_1,
+                                            numReceived.toString(),
+                                            (5 - numReceived).toString(),
+                                            ((5 - numReceived) / 5.0).toString()
+                                        )
+
+                                    tvStatistic2.text = getString(
+                                        R.string.ping_statistics_content_2,
+                                        minRes.toString(), maxRes.toString()
+                                    )
+                                }
+                            }
+                        }
+                    }
+                    index += 1
+                    Log.d(TAG, "pingNetWork: $index ")
+                    return@onEach
                 }
                 .launchIn(lifecycleScope)
         } catch (error: Icmp.Error.UnknownHost) {
@@ -86,14 +117,19 @@ class FragmentPingDevices : BaseFragment<FragmentPingDeviceBinding>() {
             tvName.text = device?.hostname
             tvIp.text = device?.ip
 
-            pingResultNetWorkAdapter = PingResultAdapter().apply {
-                setHostData(device)
-            }
+            pingResultNetWorkAdapter = PingResultAdapter()
+            pingResultNetWorkAdapter.setHostData(device)
 
             rvListPing.adapter = pingResultNetWorkAdapter
 
             customToolbar.onScanClicked = {
+                lvPingStatistic.hide()
+                pingResultNetWorkAdapter.clearData()
                 pingNetWork()
+            }
+
+            customToolbar.onStartIconClicked = {
+                getMainActivity()?.getDrawer()?.open()
             }
         }
     }

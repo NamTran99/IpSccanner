@@ -28,6 +28,7 @@ import com.victorb.androidnetworkscanner.runOnMainThread
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -46,33 +47,10 @@ class FragmentSearchIP : BaseFragment<FragmentIpScannerBinding>() {
     private var currentScanJob: Job? = null
     private val checkJobsScope = CoroutineScope(Dispatchers.IO)
 
-    val icmp = Icmp4a()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
-            // Setup the toolbar
-
-            lifecycleScope.launch {
-                val host = "google.com"
-                try {
-                    val status = icmp.ping(host = "192.168.137.252")
-                    when (val result = status.result) {
-                        is Icmp.PingResult.Success -> Log.d(
-                            "ICMP",
-                            "$host(${status.ip.hostAddress}) ${result.packetSize} bytes - ${result.ms} ms"
-                        )
-
-                        is Icmp.PingResult.Failed -> Log.d(
-                            "ICMP",
-                            "$host(${status.ip.hostAddress}) Failed: ${result.message}"
-                        )
-                    }
-                } catch (error: Icmp.Error.UnknownHost) {
-                    Log.d("ICMP", "Unknown host $host")
-                }
-            }
-
 
             customToolbar.onStartIconClicked = {
                 getMainActivity()?.getDrawer()?.open()
@@ -81,9 +59,11 @@ class FragmentSearchIP : BaseFragment<FragmentIpScannerBinding>() {
             // Set the LayoutManager and the Adapter for RecyclerView
             rvIps.adapter = resultsAdapter.apply {
                 onSizeChange = {
-                    layoutNoData.show(it == 0)
-                    binding.rvIps.show(it != 0)
-                    binding.customToolbar.title = getString(R.string.local_network, it)
+                    lifecycleScope.launch {
+                        layoutNoData.show(it == 0)
+                        binding.rvIps.show(it != 0)
+                        binding.customToolbar.title = getString(R.string.local_network, it)
+                    }
                 }
 
                 onItemClick = {
@@ -100,12 +80,10 @@ class FragmentSearchIP : BaseFragment<FragmentIpScannerBinding>() {
                 startScan(requireContext())
             }
 
-            // Start the scan
-            currentScanJob = startScan(requireContext())
         }
     }
 
-    var progress = 0
+    private var progress = 0
         set(value) {
             val percentage = value * 100 / 256
             binding.progressBar.progress = percentage
@@ -116,6 +94,7 @@ class FragmentSearchIP : BaseFragment<FragmentIpScannerBinding>() {
     private fun startScan(context: Context): Job =
         scanJobScope.launch {
             withContext(Dispatchers.Main) {
+                resultsAdapter.clear()
                 progress = 0
             }
 
@@ -157,6 +136,11 @@ class FragmentSearchIP : BaseFragment<FragmentIpScannerBinding>() {
                 }
             }
         }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        currentScanJob?.cancel()
+    }
 }
 
 
