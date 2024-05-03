@@ -4,13 +4,16 @@ import android.os.Bundle
 import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import com.sangtb.androidlibrary.base.action.IPermissionCallBack
 import com.victorb.androidnetworkscanner.R
 import com.victorb.androidnetworkscanner.core.base.BaseActivity
+import com.victorb.androidnetworkscanner.core.permission.AppPermission
+import com.victorb.androidnetworkscanner.core.permission.IAppPermission
 import com.victorb.androidnetworkscanner.data.local.model.OptionDrawerModel
 import com.victorb.androidnetworkscanner.databinding.ActivityMainBinding
 import com.victorb.androidnetworkscanner.ui.recycler.DrawerOptionItemAdapter
 
-class MainActivity : BaseActivity<ActivityMainBinding>() {
+class MainActivity : BaseActivity<ActivityMainBinding>(), IAppPermission by AppPermission()  {
     private lateinit var optionDrawerAdapter: DrawerOptionItemAdapter
 
     override val layoutId: Int
@@ -21,6 +24,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         // Default behaviour
         super.onCreate(savedInstanceState)
+        registerActivityResult(::registerForActivityResult)
 
         binding.apply {
             optionDrawerAdapter = DrawerOptionItemAdapter().apply {
