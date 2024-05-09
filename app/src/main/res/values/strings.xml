@@ -29,8 +29,10 @@
     <string name="title_infor_timezone">Timezone:</string>
     <string name="title_infor_proxy">Proxy:</string>
     <string name="title_infor_bssid">BSSID:</string>
+    <string name="title_infor_ssid">SSID:</string>
     <string name="title_infor_wifi_broadcast">Wifi Broadcast:</string>
     <string name="title_infor_default_gateway_ip">Default Gateway IP:</string>
     <string name="title_infor_subnet_mask">Subnet Mask:</string>
     <string name="title_infor_ipv4">IPv4:</string>
+    <string name="title_infor_ipv6">IPv6:</string>
 </resources>

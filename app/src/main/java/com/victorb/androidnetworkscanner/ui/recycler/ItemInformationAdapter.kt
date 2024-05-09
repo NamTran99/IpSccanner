@@ -1,10 +1,12 @@
 package com.victorb.androidnetworkscanner.ui.recycler
 
+import android.util.Log
 import com.victorb.androidnetworkscanner.core.base.recyclerview.SingleHolderBindingAdapter
 import com.victorb.androidnetworkscanner.data.local.model.InformationIPModel
 import com.victorb.androidnetworkscanner.data.local.model.InformationType
 import com.victorb.androidnetworkscanner.databinding.ItemInformationIpBinding
 import com.victorb.androidnetworkscanner.extension.hide
+import com.victorb.androidnetworkscanner.ui.fragment.FragmentIPInformationDetail.Companion.LO_COUNTRY
 
 class ItemInformationAdapter :
     SingleHolderBindingAdapter<InformationIPModel, ItemInformationIpBinding>() {
@@ -27,6 +29,14 @@ class ItemInformationAdapter :
         }
     }
 
+    override fun submitList(list: MutableList<InformationIPModel>?) {
+        if (list.isNullOrEmpty()) return
+        val copyList = list.map {
+            it.copy()
+        }
+        super.submitList(copyList)
+    }
+
     fun updateItem(data: InformationIPModel){
         val a = currentList.toMutableList()
 
@@ -37,7 +47,6 @@ class ItemInformationAdapter :
         if(index != -1){
             a[index] = data
         }
-
         submitList(a)
     }
 }

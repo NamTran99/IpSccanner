@@ -14,7 +14,7 @@ import com.victorb.androidnetworkscanner.extension.hide
 import com.victorb.androidnetworkscanner.generateIpRange
 import com.victorb.androidnetworkscanner.getIpHostname
 import com.victorb.androidnetworkscanner.getNetworkPrefixLength
-import com.victorb.androidnetworkscanner.getPhoneIp
+import com.victorb.androidnetworkscanner.getPhoneIpv4
 import com.victorb.androidnetworkscanner.intIpToReversedIntIp
 import com.victorb.androidnetworkscanner.intIpToString
 import com.victorb.androidnetworkscanner.isIpReachable
@@ -101,7 +101,7 @@ class FragmentMyIPDetail : Fragment() {
 
             // Iterate through all the possible IPs
             for (ip in generateIpRange(
-                intIpToReversedIntIp(getPhoneIp(context)), getNetworkPrefixLength(context)
+                intIpToReversedIntIp(getPhoneIpv4(context)), getNetworkPrefixLength(context)
             )) {
                 // Add the jobs, which checks if the connection is up and adds it to the adapter
                 checkingJobs.add(checkJobsScope.launch {

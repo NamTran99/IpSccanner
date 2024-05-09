@@ -11,11 +11,13 @@ enum class InformationType{
 data class InformationIPModel(
     val id: Int,
     val title: String,
-    val content: String?= null,
-    @DrawableRes val icon: Int? = null,
+    var content: String?= null,
+    @DrawableRes var icon: Int? = null,
     val type: InformationType = InformationType.Text,
 ) : KeyModel {
     override val identity: String
         get() = title
+
+    fun updateContent(content: String) = this.copy(content = content)
 }
 

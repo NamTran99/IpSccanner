@@ -1,23 +1,17 @@
 package com.victorb.androidnetworkscanner
 
-import android.Manifest
 import android.content.Context
-import android.content.pm.PackageManager
-import android.location.Address
-import android.location.Geocoder
-import android.location.Location
-import android.location.LocationManager
 import android.net.ConnectivityManager
 import android.net.wifi.WifiManager
 import android.util.Log
-import androidx.core.app.ActivityCompat
-import androidx.core.content.getSystemService
+import androidx.core.content.ContextCompat.getSystemService
+import com.victorb.androidnetworkscanner.core.MyApplication
 import java.io.IOException
 import java.net.Inet4Address
+import java.net.Inet6Address
 import java.net.InetAddress
 import java.net.InterfaceAddress
 import java.net.NetworkInterface
-import java.util.Locale
 
 
 fun isWifiEnabled(context: Context): Boolean =
@@ -26,12 +20,12 @@ fun isWifiEnabled(context: Context): Boolean =
 fun isWifiConnected(context: Context): Boolean =
     (context.applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager).activeNetwork != null
 
-fun getPhoneIp(context: Context): Int =
+fun getPhoneIpv4(context: Context): Int =
     (context.getSystemService(Context.WIFI_SERVICE) as WifiManager).dhcpInfo.ipAddress
 
 fun getNetworkPrefixLength(context: Context): Int {
     // IP object
-    val inetAddress: InetAddress = InetAddress.getByAddress(intIpToByteArray(getPhoneIp(context)));
+    val inetAddress: InetAddress = InetAddress.getByAddress(intIpToByteArray(getPhoneIpv4(context)));
 
     // Get the network interfaces
     val networkInterface: NetworkInterface = NetworkInterface.getByInetAddress(inetAddress);
@@ -47,12 +41,42 @@ fun getNetworkPrefixLength(context: Context): Int {
     return -1
 }
 
-fun getIpHostname(ip: Int): String = InetAddress.getByAddress(intIpToByteArray(ip)).hostName
+suspend fun getIpHostname(ip: Int): String =  InetAddress.getByAddress(intIpToByteArray(ip)).hostName
 
 fun isIpReachable(ip: Int): Boolean =
     InetAddress.getByAddress(intIpToByteArray(ip)).isReachable(2000)
-//fun isIpReachable1(ip: Int): Boolean = InetAddress.getByAddress(intIpToByteArray(ip)).
 
+
+fun getBroadcastAddress(): InetAddress {
+    val wifi = MyApplication.application.getSystemService(WifiManager::class.java)
+    val dhcp = wifi!!.dhcpInfo
+    // handle null somehow
+    val broadcast = dhcp.ipAddress and dhcp.netmask or dhcp.netmask.inv()
+    val quads = ByteArray(4)
+    for (k in 0..3) quads[k] = (broadcast shr k * 8).toByte()
+    return InetAddress.getByAddress(quads)
+}
+
+fun getLocalIpV6(): String? {
+    try {
+        val en = NetworkInterface
+            .getNetworkInterfaces()
+        while (en.hasMoreElements()) {
+            val intf = en.nextElement()
+            val enumIpAddr = intf
+                .getInetAddresses()
+            while (enumIpAddr.hasMoreElements()) {
+                val inetAddress = enumIpAddr.nextElement()
+                if (!inetAddress.isLoopbackAddress && inetAddress is Inet6Address) {
+                    return inetAddress.getHostAddress()?.toString()
+                }
+            }
+        }
+    } catch (ex: Exception) {
+        Log.e("IP Address", ex.toString())
+    }
+    return null
+}
 
 //fun getLocation(context: Context): Location? {
 //    try {

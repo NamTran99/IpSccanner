@@ -51,5 +51,8 @@ dependencies {
     implementation 'com.airbnb.android:lottie:6.4.0'
 
     implementation "com.marsounjan:icmp4a:1.0.0"
-    implementation "org.jetbrains.kotlin:kotlin-reflect:1.9.21"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:1.9.22"
+    implementation 'com.google.android.gms:play-services-location:21.2.0'
+    implementation 'jp.gr.java_conf.androtaku.countrylist:countrylist:1.1.0'
+    implementation 'com.github.blongho:worldCountryData:1.5.3'
 }

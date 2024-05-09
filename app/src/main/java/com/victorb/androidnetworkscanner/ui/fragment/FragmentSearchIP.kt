@@ -3,12 +3,9 @@ package com.victorb.androidnetworkscanner.ui.fragment
 import android.animation.ObjectAnimator
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
-import com.marsounjan.icmp4a.Icmp
-import com.marsounjan.icmp4a.Icmp4a
 import com.victorb.androidnetworkscanner.R
 import com.victorb.androidnetworkscanner.ResultsAdapter
 import com.victorb.androidnetworkscanner.core.base.BaseFragment
@@ -18,7 +15,7 @@ import com.victorb.androidnetworkscanner.extension.show
 import com.victorb.androidnetworkscanner.generateIpRange
 import com.victorb.androidnetworkscanner.getIpHostname
 import com.victorb.androidnetworkscanner.getNetworkPrefixLength
-import com.victorb.androidnetworkscanner.getPhoneIp
+import com.victorb.androidnetworkscanner.getPhoneIpv4
 import com.victorb.androidnetworkscanner.intIpToReversedIntIp
 import com.victorb.androidnetworkscanner.intIpToString
 import com.victorb.androidnetworkscanner.isIpReachable
@@ -28,7 +25,6 @@ import com.victorb.androidnetworkscanner.runOnMainThread
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.isActive
 import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -107,7 +103,7 @@ class FragmentSearchIP : BaseFragment<FragmentIpScannerBinding>() {
 
                 // Iterate through all the possible IPs
                 for (ip in generateIpRange(
-                    intIpToReversedIntIp(getPhoneIp(context)),
+                    intIpToReversedIntIp(getPhoneIpv4(context)),
                     getNetworkPrefixLength(context)
                 )) {
                     // Add the jobs, which checks if the connection is up and adds it to the adapter

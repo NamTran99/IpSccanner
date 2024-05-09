@@ -8,8 +8,8 @@ import com.victorb.androidnetworkscanner.extension.setOnSafeClickListener
 
 class DrawerOptionItemAdapter :
     SingleHolderBindingAdapter<OptionDrawerModel, ItemMenuDrawerLayoutBinding>() {
-        private var selectedIndex : Int= -1
-    var onItemClick : ((OptionDrawerModel) -> Unit)? = null
+    private var selectedIndex: Int = -1
+    var onItemClick: ((OptionDrawerModel) -> Unit)? = null
     override fun onBind(
         binding: ItemMenuDrawerLayoutBinding,
         item: OptionDrawerModel,
@@ -19,12 +19,18 @@ class DrawerOptionItemAdapter :
         binding.apply {
             imgIcon.setImageResource(item.icon)
             tvName.text = item.name
-            tvName.setTextColor( context.resources.getColor(if(item.isSelected) R.color. color_item_selected else R.color.color_black, null))
+            tvName.setTextColor(
+                context.resources.getColor(
+                    if (item.isSelected)
+                        R.color.color_item_selected
+                    else R.color.color_text_unselect, null
+                )
+            )
             layoutDrawerOption.isSelected = item.isSelected
             root.setOnSafeClickListener {
-                if(item.isSelected) return@setOnSafeClickListener
+                if (item.isSelected) return@setOnSafeClickListener
                 item.isSelected = true
-                if(selectedIndex != -1 ){
+                if (selectedIndex != -1) {
                     currentList[selectedIndex].isSelected = false
                     notifyItemChanged(selectedIndex)
                 }
@@ -35,7 +41,7 @@ class DrawerOptionItemAdapter :
         }
     }
 
-    fun setListItem(list: List<OptionDrawerModel>){
+    fun setListItem(list: List<OptionDrawerModel>) {
         submitList(list)
         selectedIndex = list.indexOfFirst {
             it.isSelected

@@ -24,7 +24,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), IAppPermission by AppP
     override fun onCreate(savedInstanceState: Bundle?) {
         // Default behaviour
         super.onCreate(savedInstanceState)
-        registerActivityResult(::registerForActivityResult)
+
 
         binding.apply {
             optionDrawerAdapter = DrawerOptionItemAdapter().apply {
@@ -39,13 +39,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), IAppPermission by AppP
                 setListItem(
                     listOf(
                         OptionDrawerModel(
-                            R.drawable.ic_icon_app,
+                            R.drawable.ic_information,
                             getString(R.string.option_information),
                             isSelected = true,
                             idNavigation = R.id.fragmentIPInformationDetail
                         ),
                         OptionDrawerModel(
-                            R.drawable.ic_icon_app,
+                            R.drawable.ic_search,
                             getString(R.string.option_scan_network),
                             idNavigation = R.id.fragmentSearchIP
                         )

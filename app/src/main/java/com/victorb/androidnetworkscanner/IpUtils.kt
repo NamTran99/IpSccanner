@@ -30,6 +30,15 @@ fun intIpToString(ip: Int) = String.format(
         (ip shr 24 and 0xff)
 )
 
+fun getWifiBroadcast(ip: Int)= String.format(
+        "%d.%d.%d.%d",
+        (ip and 0xff),
+        (ip shr 8 and 0xff),
+        (ip shr 16 and 0xff),
+        255
+)
+
+
 fun intReversedIpToString(ip: Int) = String.format(
         "%d.%d.%d.%d",
         (ip shr 24 and 0xff),
